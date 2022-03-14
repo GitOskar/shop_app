@@ -1,0 +1,26 @@
+config:
+  security:
+    jwt-secret: secret
+    access-token-duration-minutes: 10
+    refresh-token-duration-minutes: 30
+  postgres:
+    url: localhost:5432
+    db-name: shop_app_db
+    username: postgres
+    password: postgres
+
+server:
+  port: 20000
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${config.postgres.url}/${config.postgres.db-name}
+    username: ${config.postgres.username}
+    password: ${config.postgres.password}
+  jpa:
+    generate-ddl: true
+    properties:
+      hibernate:
+        ddl-auto: create-drop
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show-sql: true
