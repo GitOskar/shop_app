@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class RFC5322EmailValidator implements ConstraintValidator<RFC5322Email, String> {
 
-    private static final Pattern EMAIL_REGEX = Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
+    private static final Pattern RFC5322_EMAIL_REGEX = Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {
@@ -19,6 +19,6 @@ public class RFC5322EmailValidator implements ConstraintValidator<RFC5322Email, 
     }
 
     private boolean matchesEmailRegularExpression(String email) {
-        return EMAIL_REGEX.matcher(email).matches();
+        return RFC5322_EMAIL_REGEX.matcher(email).matches();
     }
 }

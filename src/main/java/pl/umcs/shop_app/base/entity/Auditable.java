@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class Auditable extends BaseEntity {
 
-    public LocalDateTime createdDate;
+    private LocalDateTime createdDate;
 
-    public LocalDateTime lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
     @PrePersist
     private void prePersist() {

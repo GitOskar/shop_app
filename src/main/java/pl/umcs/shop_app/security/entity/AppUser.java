@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.umcs.shop_app.base.entity.Auditable;
 
 import javax.persistence.Column;
@@ -19,13 +18,13 @@ import static javax.persistence.FetchType.EAGER;
 @Data
 @Entity
 @NoArgsConstructor
-@ToString(exclude = "passwordHash")
 @EqualsAndHashCode(callSuper = true)
 public class AppUser extends Auditable {
 
     @Column(unique = true)
     private String username;
 
+    @ToString.Exclude
     private String passwordHash;
 
     @ManyToMany(fetch = EAGER, cascade = ALL)

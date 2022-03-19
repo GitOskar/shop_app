@@ -12,8 +12,8 @@ import pl.umcs.shop_app.domain.exception.ApiException;
 import pl.umcs.shop_app.domain.exception.ErrorStatus;
 
 import java.util.Map;
-import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toMap;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Slf4j
@@ -32,7 +32,7 @@ public class BaseControllerAdvice {
     public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
 
         Map<String, String> errors = exception.getBindingResult().getFieldErrors().stream()
-                .collect(Collectors.toMap(FieldError::getField, DefaultMessageSourceResolvable::getDefaultMessage));
+                .collect(toMap(FieldError::getField, DefaultMessageSourceResolvable::getDefaultMessage));
 
         return ResponseEntity.badRequest().body(errors);
     }
