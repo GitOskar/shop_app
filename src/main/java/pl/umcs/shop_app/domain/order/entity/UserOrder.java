@@ -24,7 +24,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Order extends Auditable {
+public class UserOrder extends Auditable {
 
     @Columns(columns = {@Column(name = "total_price_currency"), @Column(name = "total_price_amount")})
     @Type(type = "org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmountAndCurrency")
@@ -38,6 +38,6 @@ public class Order extends Auditable {
     private LocalDateTime orderDate;
 
     @ToString.Exclude
-    @OneToMany(fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    @OneToMany(fetch = LAZY, mappedBy = "userOrder", cascade = ALL, orphanRemoval = true)
     private List<OrderPart> orderParts = new ArrayList<>();
 }

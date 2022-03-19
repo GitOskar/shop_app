@@ -6,6 +6,7 @@ import pl.umcs.shop_app.base.entity.BaseEntity;
 import pl.umcs.shop_app.domain.product.entity.Product;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 
@@ -18,10 +19,13 @@ public class OrderPart extends BaseEntity {
 
     private BigDecimal quantity;
 
+    @ToString.Exclude
+    @JoinColumn(name = "user_order_id")
     @ManyToOne
-    private Order order;
+    private UserOrder userOrder;
 
     @ToString.Exclude
+    @JoinColumn(name = "product_id")
     @ManyToOne
     private Product product;
 
