@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.toMap;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 @Slf4j
 @ControllerAdvice
@@ -35,6 +37,13 @@ public class BaseControllerAdvice {
                 .collect(toMap(FieldError::getField, DefaultMessageSourceResolvable::getDefaultMessage));
 
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiError> handleMessageNotReadableException(HttpMessageNotReadableException httpMessageNotReadableException) {
+
+        return ResponseEntity.unprocessableEntity()
+                .body(new ApiError("Parsing exception occurred request reading", Integer.toString(UNPROCESSABLE_ENTITY.value()), UNPROCESSABLE_ENTITY.name()));
     }
 
     @ExceptionHandler(Exception.class)
