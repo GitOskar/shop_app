@@ -14,17 +14,17 @@ public abstract class BaseProductRequestDto {
 
     @NotEmpty
     @Length(min = 5, max = 50)
-    String name;
+    protected String name;
 
     @NotNull
     @ISO4217CurrencyCode
-    String currency;
+    protected String currency;
 
     @NotNull
     @DecimalMin(value = "0.01")
-    BigDecimal amount;
+    protected BigDecimal amount;
 
     @NotNull
     @DecimalMin(value = "0.0")
-    BigDecimal quantityAvailable;
+    protected BigDecimal quantityAvailable;
 }
