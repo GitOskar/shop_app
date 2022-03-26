@@ -17,7 +17,7 @@ import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.FetchType.EAGER;
 
 @Data
 @Entity
@@ -38,6 +38,6 @@ public class UserOrder extends Auditable {
     private LocalDateTime orderDate;
 
     @ToString.Exclude
-    @OneToMany(fetch = LAZY, mappedBy = "userOrder", cascade = ALL, orphanRemoval = true)
+    @OneToMany(fetch = EAGER, mappedBy = "userOrder", cascade = ALL, orphanRemoval = true)
     private List<OrderPart> orderParts = new ArrayList<>();
 }

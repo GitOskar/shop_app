@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import static java.util.Objects.isNull;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
 @MappedSuperclass
@@ -15,7 +16,7 @@ import static java.util.Objects.isNull;
 public class BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     public boolean isNew() {

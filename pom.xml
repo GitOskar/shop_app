@@ -10,7 +10,7 @@
     </parent>
     <groupId>pl.umcs</groupId>
     <artifactId>shop_app</artifactId>
-    <version>0.2.0</version>
+    <version>0.1.0</version>
     <name>shop_app</name>
     <description>shop_app</description>
     <properties>
@@ -80,7 +80,8 @@
         <dependency>
             <groupId>org.joda</groupId>
             <artifactId>joda-money</artifactId>
-            <version>1.0.1</version>
+<!--        LAST VERSION SUPPORTED BY JADIRA-->
+            <version>0.90</version>
         </dependency>
         <dependency>
             <groupId>org.jadira.usertype</groupId>

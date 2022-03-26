@@ -32,4 +32,19 @@ class MoneyUtilTest extends Specification {
         CurrencyCode.PLN || CurrencyUnit.of("PLN")
         CurrencyCode.EUR || CurrencyUnit.EUR
     }
+
+    def "should correctly return money from currency code and big decimal amount"() {
+
+        expect:
+        MoneyUtil.toMoney(currencyCode, amount) == expectedMoney
+
+        where:
+        currencyCode     | amount                     || expectedMoney
+        null             | null                       || null
+        CurrencyCode.USD | null                       || null
+        null             | BigDecimal.TEN             || null
+        CurrencyCode.USD | BigDecimal.TEN             || Money.of(CurrencyUnit.USD, BigDecimal.TEN)
+        CurrencyCode.GBP | BigDecimal.valueOf(21.2)   || Money.of(CurrencyUnit.GBP, BigDecimal.valueOf(21.2))
+        CurrencyCode.EUR | BigDecimal.valueOf(666.69) || Money.of(CurrencyUnit.EUR, BigDecimal.valueOf(666.69))
+    }
 }

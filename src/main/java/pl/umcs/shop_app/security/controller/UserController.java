@@ -37,14 +37,14 @@ public class UserController {
     }
 
     @PutMapping("/admin/user/roles")
-    public ResponseEntity<?> updateUserRoles(@Valid @RequestBody UpdateUserRolesDto dto) {
+    public ResponseEntity<Object> updateUserRoles(@Valid @RequestBody UpdateUserRolesDto dto) {
         log.info("update user roles request: {}", dto);
         userService.updateRoleList(dto.getUserId(), dto.getRolesId());
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/public/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<Object> register(@Valid @RequestBody RegisterRequest registerRequest) {
         userService.save(UserMapper.toEntity(registerRequest));
         return ResponseEntity.noContent().build();
     }

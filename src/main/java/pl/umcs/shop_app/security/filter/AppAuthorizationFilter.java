@@ -48,7 +48,7 @@ public class AppAuthorizationFilter extends OncePerRequestFilter {
 
         if (isNull(authorizationHeader) || !authorizationHeader.startsWith(BEARER)) {
             log.error("No bearer authorization header present");
-            setForbiddenResponse(response);
+            setForbiddenResponse(response, "No bearer authorization header present");
             return;
         }
 
@@ -58,15 +58,15 @@ public class AppAuthorizationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(decodedJWT.getSubject(), null, authorities));
         } catch (Exception e) {
             log.error("Error occurred during decoding JWT token: ", e);
-            setForbiddenResponse(response);
+            setForbiddenResponse(response, e.getMessage());
             return;
         }
         filterChain.doFilter(request, response);
     }
 
-    private void setForbiddenResponse(HttpServletResponse response) throws IOException {
+    private void setForbiddenResponse(HttpServletResponse response, String message) throws IOException {
         response.setContentType(APPLICATION_JSON);
         response.setStatus(FORBIDDEN.value());
-        new ObjectMapper().writeValue(response.getOutputStream(), Map.of("message", ERROR_OCCURRED_DURING_TOKEN_VERIFYING.getMessage()));
+        new ObjectMapper().writeValue(response.getOutputStream(), Map.of("message", message));
     }
 }
