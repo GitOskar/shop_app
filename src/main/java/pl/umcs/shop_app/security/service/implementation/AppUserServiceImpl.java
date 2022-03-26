@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toCollection;
+import static pl.umcs.shop_app.domain.exception.ErrorStatus.USER_ALREADY_EXISTS;
 import static pl.umcs.shop_app.domain.exception.ErrorStatus.USER_NOT_FOUND_EXCEPTION;
 
 @Slf4j
@@ -56,6 +57,10 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     @Override
     public AppUser save(AppUser appUser) {
+        if (appUserRepository.existsAppUserByUsername(appUser.getUsername())) {
+            log.error("User: {} already exists.", appUser.getUsername());
+            throw new ApiException(USER_ALREADY_EXISTS);
+        }
         log.info("Saving new user: {}", appUser);
         return appUserRepository.save(appUser);
     }

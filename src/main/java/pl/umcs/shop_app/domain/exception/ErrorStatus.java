@@ -5,8 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @Getter
 @ToString
@@ -16,6 +15,9 @@ public enum ErrorStatus {
     // 404
     USER_NOT_FOUND_EXCEPTION("User not found", NOT_FOUND),
     ERROR_OCCURRED_DURING_TOKEN_VERIFYING("Error occurred during token verifying", NOT_FOUND),
+
+    //409
+    USER_ALREADY_EXISTS("User already exists", CONFLICT),
 
     // 500
     ERROR_DURING_CURRENCY_EXCHANGING("Error during currency exchanging", INTERNAL_SERVER_ERROR);

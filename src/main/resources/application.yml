@@ -26,8 +26,8 @@ spring:
         ddl-auto: create-drop
         dialect: org.hibernate.dialect.PostgreSQLDialect
         show-sql: false
-
 nbp:
   currency-rate:
     download-url: http://api.nbp.pl/api/exchangerates/tables/A/
     timeout-ms: 4000
+

@@ -80,13 +80,17 @@
         <dependency>
             <groupId>org.joda</groupId>
             <artifactId>joda-money</artifactId>
-<!--        LAST VERSION SUPPORTED BY JADIRA-->
+            <!--        LAST VERSION SUPPORTED BY JADIRA-->
             <version>0.90</version>
         </dependency>
         <dependency>
             <groupId>org.jadira.usertype</groupId>
             <artifactId>usertype.core</artifactId>
             <version>6.0.1.GA</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
         </dependency>
         <!-- HELPERS -->
 
