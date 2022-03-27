@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 
 import static java.math.RoundingMode.HALF_UP;
+import static javax.persistence.FetchType.EAGER;
 
 @Data
 @Entity
@@ -24,9 +25,9 @@ public class OrderPart extends BaseEntity {
 
     private BigDecimal quantity;
 
-    @Columns(columns = {@Column(name = "part_price_currency"), @Column(name = "part_price_amount")})
+    @Columns(columns = {@Column(name = "unit_price_currency"), @Column(name = "unit_price_amount")})
     @Type(type = "org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmountAndCurrency")
-    private Money partPrice;
+    private Money unitPrice;
 
     @ToString.Exclude
     @JoinColumn(name = "user_order_id")
@@ -35,14 +36,10 @@ public class OrderPart extends BaseEntity {
 
     @ToString.Exclude
     @JoinColumn(name = "product_id")
-    @ManyToOne
+    @ManyToOne(fetch = EAGER)
     private Product product;
 
-    public void calculateTotalPrice() {
-        partPrice = getProductPrice().multipliedBy(quantity, HALF_UP);
-    }
-
-    public Money getProductPrice() {
-        return product.getPrice();
+    public Money calculateTotalPrice() {
+        return unitPrice.multipliedBy(quantity, HALF_UP);
     }
 }

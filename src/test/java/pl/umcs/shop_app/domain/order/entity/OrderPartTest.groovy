@@ -2,7 +2,6 @@ package pl.umcs.shop_app.domain.order.entity
 
 import org.joda.money.CurrencyUnit
 import org.joda.money.Money
-import pl.umcs.shop_app.domain.product.entity.Product
 import spock.lang.Specification
 
 class OrderPartTest extends Specification {
@@ -10,13 +9,13 @@ class OrderPartTest extends Specification {
     def "should calculate total price correctly"() {
 
         given:
-        OrderPart orderPart = new OrderPart(quantity: quantity, product: new Product(price: productPrice))
+        OrderPart orderPart = new OrderPart(quantity: quantity, unitPrice: productPrice)
 
         when:
-        orderPart.calculateTotalPrice()
+        def result = orderPart.calculateTotalPrice()
 
         then:
-        orderPart.getPartPrice() == expectedTotalPrice
+        result == expectedTotalPrice
 
         where:
         quantity                | productPrice                                          || expectedTotalPrice

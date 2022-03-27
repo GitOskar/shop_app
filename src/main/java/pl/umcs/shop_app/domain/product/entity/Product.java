@@ -28,4 +28,8 @@ public class Product extends Auditable {
     private Money price;
 
     private BigDecimal quantityAvailable;
+
+    public void reduceQuantity(BigDecimal number) {
+        quantityAvailable = quantityAvailable.subtract(number);
+    }
 }

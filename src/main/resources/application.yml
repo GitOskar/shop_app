@@ -31,3 +31,8 @@ nbp:
     download-url: http://api.nbp.pl/api/exchangerates/tables/A/
     timeout-ms: 4000
 
+payu:
+  access-token: d9a4536e-62ba-4f60-8017-6053211d3f47
+  merchant-pos-id: 300746
+  payment-url: https://secure.snd.payu.com/api/v2_1/orders
+  timeout-ms: 4000
