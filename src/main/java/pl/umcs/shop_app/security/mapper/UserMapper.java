@@ -1,5 +1,6 @@
 package pl.umcs.shop_app.security.mapper;
 
+import com.neovisionaries.i18n.CurrencyCode;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.umcs.shop_app.security.dto.RegisterRequest;
@@ -15,7 +16,12 @@ import static lombok.AccessLevel.PRIVATE;
 public class UserMapper {
 
     public static AppUser toEntity(RegisterRequest registerRequest) {
-        return new AppUser(registerRequest.getUsername(), new BCryptPasswordEncoder().encode(registerRequest.getPassword()));
+        return new AppUser(registerRequest.getUsername(),
+                new BCryptPasswordEncoder().encode(registerRequest.getPassword()),
+                registerRequest.getPhoneNumber(),
+                registerRequest.getFirstName(),
+                registerRequest.getLastName(),
+                CurrencyCode.valueOf(registerRequest.getSettlementCurrency()));
     }
 
     public static UserDto toDto(AppUser user) {

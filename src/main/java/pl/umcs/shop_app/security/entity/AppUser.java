@@ -1,5 +1,6 @@
 package pl.umcs.shop_app.security.entity;
 
+import com.neovisionaries.i18n.CurrencyCode;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -27,11 +28,23 @@ public class AppUser extends Auditable {
     @ToString.Exclude
     private String passwordHash;
 
+    private String phoneNumber;
+
+    private String firstName;
+
+    private String lastName;
+
+    private CurrencyCode settlementCurrency;
+
     @ManyToMany(fetch = EAGER, cascade = ALL)
     private Set<Role> roles = new HashSet<>();
 
-    public AppUser(String username, String passwordHash) {
+    public AppUser(String username, String passwordHash, String phoneNumber, String firstName, String lastName, CurrencyCode settlementCurrency) {
         this.username = username;
         this.passwordHash = passwordHash;
+        this.phoneNumber = phoneNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.settlementCurrency = settlementCurrency;
     }
 }
