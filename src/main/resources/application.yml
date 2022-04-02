@@ -10,6 +10,7 @@ config:
     password: postgres
   cron:
     currency-rate: 0 15 17 * * ?
+    payu-check-status: 0 * * * * ?
 
 server:
   port: 20000
@@ -34,5 +35,8 @@ nbp:
 payu:
   access-token: d9a4536e-62ba-4f60-8017-6053211d3f47
   merchant-pos-id: 300746
-  payment-url: https://secure.snd.payu.com/api/v2_1/orders
+  base-url: https://secure.snd.payu.com/api/v2_1/
+  payment-url: orders
+  check-status-url: orders
   timeout-ms: 4000
+  check-to-sec: 3600

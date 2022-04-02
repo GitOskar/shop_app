@@ -1,9 +1,13 @@
 package pl.umcs.shop_app.domain.order.service;
 
-import pl.umcs.shop_app.domain.order.dto.MakeOrderRequest;
-import pl.umcs.shop_app.domain.order.dto.OrderDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import pl.umcs.shop_app.domain.order.dto.*;
+import reactor.core.publisher.Mono;
 
 public interface OrderService {
 
-    OrderDto makeOrder(MakeOrderRequest request);
+    Mono<MakeOrderResponseDto> makeOrder(MakeOrderRequest request);
+    OrderDto findByUsernameAndOrderId(String username, Long orderId);
+    Page<OrderShortDto> searchOrders(OrderFilter orderFilter, Pageable pageable);
 }

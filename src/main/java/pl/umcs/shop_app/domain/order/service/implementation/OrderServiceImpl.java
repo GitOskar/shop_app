@@ -4,16 +4,17 @@ import com.neovisionaries.i18n.CurrencyCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.money.Money;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.umcs.shop_app.domain.currencyexchanger.CurrencyExchanger;
 import pl.umcs.shop_app.domain.exception.ApiException;
-import pl.umcs.shop_app.domain.order.dto.MakeOrderProduct;
-import pl.umcs.shop_app.domain.order.dto.MakeOrderRequest;
-import pl.umcs.shop_app.domain.order.dto.OrderDto;
+import pl.umcs.shop_app.domain.order.dto.*;
 import pl.umcs.shop_app.domain.order.entity.OrderPart;
 import pl.umcs.shop_app.domain.order.entity.UserOrder;
 import pl.umcs.shop_app.domain.order.enumerate.OrderStatus;
+import pl.umcs.shop_app.domain.order.repository.OrderQueryDslRepository;
 import pl.umcs.shop_app.domain.order.repository.OrderRepository;
 import pl.umcs.shop_app.domain.order.service.OrderService;
 import pl.umcs.shop_app.domain.payu.payment.service.PayuPaymentService;
@@ -23,6 +24,7 @@ import pl.umcs.shop_app.security.entity.AppUser;
 import pl.umcs.shop_app.security.repository.AppUserRepository;
 import pl.umcs.shop_app.util.MoneyUtil;
 import pl.umcs.shop_app.util.SecurityUtil;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -45,10 +47,12 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final PayuPaymentService paymentService;
+    private final OrderQueryDslRepository orderQueryDslRepository;
+
 
     @Override
     @Transactional
-    public OrderDto makeOrder(MakeOrderRequest request) {
+    public Mono<MakeOrderResponseDto> makeOrder(MakeOrderRequest request) {
 
         String username = SecurityUtil.getUsername();
         AppUser user = appUserRepository.findByUsername(username)
@@ -63,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
 
         validateProducts(productsMap, request);
 
-        UserOrder order = new UserOrder(null, OrderStatus.UNPAID, username, request.getIpAddress(), LocalDateTime.now(), user, null);
+        UserOrder order = new UserOrder(null, OrderStatus.ERROR, username, request.getIpAddress(), LocalDateTime.now(), user, null, null);
 
         List<OrderPart> orderParts = reduceProductQuantityAndPrepareOrderParts(request, productsMap, user.getSettlementCurrency(), order);
 
@@ -76,7 +80,20 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalPrice(totalPrice);
         orderRepository.save(order);
 
+        return paymentService.sendTransaction(order)
+                .doOnNext(r -> orderRepository.save(order))
+                .map(response -> new MakeOrderResponseDto(toDto(order), response.getRedirectUri(), response.getStatus().getStatusCode()));
+    }
+
+    @Override
+    public OrderDto findByUsernameAndOrderId(String username, Long orderId) {
+        UserOrder order = orderRepository.findByIdAndOrderedBy(orderId, username);
         return toDto(order);
+    }
+
+    @Override
+    public Page<OrderShortDto> searchOrders(OrderFilter orderFilter, Pageable pageable) {
+        return orderQueryDslRepository.findProducts(orderFilter, pageable);
     }
 
     private List<OrderPart> reduceProductQuantityAndPrepareOrderParts(MakeOrderRequest request, Map<Long, Product> productsMap, CurrencyCode settlementCurrency, UserOrder order) {
@@ -104,7 +121,5 @@ public class OrderServiceImpl implements OrderService {
                         throw new ApiException(ORDER_EXCEEDS_AVAILABLE_PRODUCT_NUMBER);
                     }
                 });
-
     }
-
 }

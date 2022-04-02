@@ -1,38 +1,33 @@
-package pl.umcs.shop_app.domain.payu.payment.facade.implementation;
+package pl.umcs.shop_app.domain.payu.checkstatus;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
-import pl.umcs.shop_app.domain.order.entity.UserOrder;
-import pl.umcs.shop_app.domain.payu.payment.dto.PayuPaymentRequest;
-import pl.umcs.shop_app.domain.payu.payment.dto.PayuPaymentResponse;
-import pl.umcs.shop_app.domain.payu.payment.facade.PayuPaymentFacade;
 import pl.umcs.shop_app.domain.payu.properties.PayuProperties;
 import reactor.core.publisher.Mono;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PayuPaymentFacadeImpl implements PayuPaymentFacade {
+public class CheckStatusFacadeImpl implements CheckStatusFacade {
 
     private final WebClient payuWebClient;
     private final PayuProperties payuProperties;
 
     @Override
-    public Mono<PayuPaymentResponse> sendTransaction(UserOrder order) {
+    public Mono<PayuCheckStatusResponse> checkStatus(String orderId) {
 
-        return payuWebClient.post()
-                .uri(payuProperties.getPaymentUrl())
-                .body(BodyInserters.fromValue(PayuPaymentRequest.from(order, payuProperties.getMerchantPosId())))
+        return payuWebClient.get()
+                .uri(payuProperties.getCheckStatusUrl() + "/" + orderId)
                 .exchangeToMono(this::wrapResponse)
+                .doOnNext(response -> response.setOrderId(orderId))
                 .doOnNext(response -> log.info("PayU response: {}", response));
     }
 
-    private Mono<PayuPaymentResponse> wrapResponse(ClientResponse clientResponse) {
+    private Mono<PayuCheckStatusResponse> wrapResponse(ClientResponse clientResponse) {
 
         HttpStatus status = clientResponse.statusCode();
 
@@ -42,6 +37,6 @@ public class PayuPaymentFacadeImpl implements PayuPaymentFacade {
             log.error("Error PayU connection");
         }
 
-        return clientResponse.bodyToMono(PayuPaymentResponse.class);
+        return clientResponse.bodyToMono(PayuCheckStatusResponse.class);
     }
 }

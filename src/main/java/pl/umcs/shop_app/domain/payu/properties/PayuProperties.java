@@ -24,11 +24,20 @@ public class PayuProperties {
     private String accessToken;
 
     @NotEmpty
+    private String baseUrl;
+
+    @NotEmpty
     private String paymentUrl;
+
+    @NotEmpty
+    private String checkStatusUrl;
 
     @NotNull
     private String merchantPosId;
 
     @NotNull
     private Long timeoutMs;
+
+    @NotNull
+    private Integer checkToSec;
 }

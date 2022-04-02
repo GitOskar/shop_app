@@ -42,6 +42,8 @@ public class UserOrder extends Auditable {
     @ManyToOne(fetch = LAZY)
     private AppUser user;
 
+    private String orderId;
+
     @ToString.Exclude
     @OneToMany(fetch = EAGER, mappedBy = "userOrder", cascade = ALL, orphanRemoval = true)
     private List<OrderPart> orderParts = new ArrayList<>();

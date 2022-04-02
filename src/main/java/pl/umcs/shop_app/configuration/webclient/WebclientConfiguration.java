@@ -11,10 +11,13 @@ import reactor.netty.http.client.HttpClient;
 import java.time.Duration;
 
 import static io.netty.handler.codec.http.HttpHeaders.Values.APPLICATION_JSON;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 @Configuration
 public class WebclientConfiguration {
+
+    private static final String BEARER = "BEARER ";
 
     @Bean
     public WebClient nbpWebClient(NbpCurrencyRateProperties nbpCurrencyRateProperties) {
@@ -29,10 +32,11 @@ public class WebclientConfiguration {
     @Bean
     public WebClient payuWebClient(PayuProperties payuProperties) {
         return WebClient.builder()
-                .baseUrl(payuProperties.getPaymentUrl())
+                .baseUrl(payuProperties.getBaseUrl())
                 .defaultHeader(CONTENT_TYPE, APPLICATION_JSON)
                 .clientConnector(new ReactorClientHttpConnector(HttpClient.create()
                         .responseTimeout(Duration.ofMillis(payuProperties.getTimeoutMs()))))
+                .defaultHeader(AUTHORIZATION, BEARER + payuProperties.getAccessToken())
                 .build();
     }
 }
