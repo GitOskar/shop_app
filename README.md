@@ -22,9 +22,10 @@ Tokens store informations about:
 
 Endopoints authorization:
 
-Enpoint | Role
+Enpoint | Authorization
 --- | --- 
-/public | -
+/public | No Authorization
+/public | No Authorization
 
 
 ### Currency exchanging
