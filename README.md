@@ -66,6 +66,10 @@ Run:
 ## Api Documentation
  URL: https://documenter.getpostman.com/view/13968610/UVysxFuy
  
+## Database Diagram
+![Database diagram](https://user-images.githubusercontent.com/67687200/161434086-1a0d1431-1a16-4c52-8367-e8b8c5fd59b1.png)
+
+ 
 ## Technology stack (mainly):
 - Java 17
 - Gradle (tests)
