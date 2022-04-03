@@ -25,7 +25,9 @@ Endopoints authorization:
 Enpoint | Authorization
 --- | --- 
 /public | No Authorization
-/public | No Authorization
+/employee | Has role Employee
+/admin | Has role Admin
+Other | Authenticated user
 
 
 ### Currency exchanging
