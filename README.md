@@ -68,6 +68,7 @@ Run:
  
 ## Technology stack (mainly):
 - Java 17
+- Gradle (tests)
 - Spock framework
 - Spring Boot
 - Spring security
