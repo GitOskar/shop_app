@@ -25,6 +25,8 @@ Endopoints authorization:
 Enpoint | Authorization
 --- | --- 
 /public | No Authorization
+/login | No Authorization
+/authorization | No Authorization
 /employee | Has role Employee
 /admin | Has role Admin
 Other | Authenticated user
