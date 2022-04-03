@@ -19,6 +19,7 @@ public class RegisterRequest {
     String username;
 
     @ToString.Exclude
+    @NotEmpty
     @Length(min = 7, max = 50)
     String password;
 
