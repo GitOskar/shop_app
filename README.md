@@ -65,3 +65,18 @@ Run:
 
 ## Api Documentation
  URL: https://documenter.getpostman.com/view/13968610/UVysxFuy
+ 
+## Technology stack (mainly):
+- Java 17
+- Spock framework
+- Spring Boot
+- Spring security
+- Spring webflux
+- Spring JPA
+- QueryDSL
+- Flyway
+- Lombok
+- Auth0 - JWT management
+- Neovisioners library (Currency codes)
+- Joda Money
+- Jadira
