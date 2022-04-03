@@ -69,10 +69,10 @@ Run:
 ## Technology stack (mainly):
 - Java 17
 - Gradle (tests)
-- Spock framework
+- Spock Framework
 - Spring Boot
-- Spring security
-- Spring webflux
+- Spring Security
+- Spring WebFlux
 - Spring JPA
 - QueryDSL
 - Flyway
