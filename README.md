@@ -2,11 +2,11 @@
 
 ## Description
 
-### Genneraly
+## Genneraly
 
 Application is a online shop which allows you to make purchases in different currencies. Applications offers managing users and products and making orders via PayU.
 
-### Authorization
+## Authorization
 
 After successful login user will get 2 JWT tokens:
  - Access token that gives permissions to resources for logged user
@@ -32,19 +32,19 @@ Enpoint | Authorization
 Other | Authenticated user
 
 
-### Currency exchanging
+## Currency exchanging
 
 Application everyday at 17:15 (may be configured from properties) downloads currency rates from NBP (National Bank of Poland). To revaluate money only the latest currency rate will be used. If something will go wrong with download, admin may download it manually via emergency curl request.
 
-### Products
+## Products
 
 Authenticated employees may adding and update products.
 
-### Payment
+## Payment
 
 After selecting products with quantity user may make an order. All orders are revaluated to user reconcilation currency (setted in registration). After revaluation via NBP currency rates, reqest is send to PayU. If transaction will have success response redirect url will be returned to a user. User may perform transactions via all methods offered by PayU: blik, bank transfer etc. After successful transactions order will have status "PAID", and will be waiting for delivery. After delivery employee has to set "DELIVERED" status.
 
-### How to run?
+## How to run?
 
 Initial database schema will be created by flyway with initial user that will have all roles. Username: admin, Password: admin
 
