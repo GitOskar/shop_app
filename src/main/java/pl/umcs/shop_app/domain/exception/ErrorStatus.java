@@ -16,9 +16,11 @@ public enum ErrorStatus {
     USER_NOT_FOUND_EXCEPTION("User not found", NOT_FOUND),
     ERROR_OCCURRED_DURING_TOKEN_VERIFYING("Error occurred during token verifying", NOT_FOUND),
     PRODUCTS_NOT_FOUND("Products not found", NOT_FOUND),
+    ORDER_NOT_FOUND("Order not found", NOT_FOUND),
 
     // 409
     USER_ALREADY_EXISTS("User already exists", CONFLICT),
+    PRODUCT_ALREADY_EXISTS("Product already exists", CONFLICT),
 
     // 422
     ORDER_EXCEEDS_AVAILABLE_PRODUCT_NUMBER("Order exceeds available product number", UNPROCESSABLE_ENTITY),

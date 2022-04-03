@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.umcs.shop_app.domain.currencyexchanger.CurrencyExchanger;
 import pl.umcs.shop_app.domain.exception.ApiException;
+import pl.umcs.shop_app.domain.exception.ErrorStatus;
 import pl.umcs.shop_app.domain.order.dto.*;
 import pl.umcs.shop_app.domain.order.entity.OrderPart;
 import pl.umcs.shop_app.domain.order.entity.UserOrder;
@@ -87,7 +88,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto findByUsernameAndOrderId(String username, Long orderId) {
-        UserOrder order = orderRepository.findByIdAndOrderedBy(orderId, username);
+        UserOrder order = orderRepository.findByIdAndOrderedBy(orderId, username)
+                .orElseThrow(() -> new ApiException(ORDER_NOT_FOUND));
         return toDto(order);
     }
 

@@ -17,4 +17,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "set p.name = :name, p.price = :price, p.quantityAvailable = :quantityAvailable " +
             "where p.id = :id")
     void updateById(Long id, String name, Money price, BigDecimal quantityAvailable);
+
+    boolean existsByName(String name);
 }

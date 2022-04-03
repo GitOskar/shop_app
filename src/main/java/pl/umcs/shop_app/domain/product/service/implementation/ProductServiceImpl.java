@@ -6,6 +6,7 @@ import org.joda.money.Money;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pl.umcs.shop_app.domain.exception.ApiException;
 import pl.umcs.shop_app.domain.product.dto.AddProductDto;
 import pl.umcs.shop_app.domain.product.dto.ProductFilter;
 import pl.umcs.shop_app.domain.product.dto.ProductResponseDto;
@@ -17,6 +18,8 @@ import pl.umcs.shop_app.domain.product.repository.ProductRepository;
 import pl.umcs.shop_app.domain.product.service.ProductService;
 import pl.umcs.shop_app.util.MoneyUtil;
 
+import static pl.umcs.shop_app.domain.exception.ErrorStatus.PRODUCT_ALREADY_EXISTS;
+
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -26,6 +29,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product addProduct(AddProductDto dto) {
+
+        if (productRepository.existsByName(dto.getName())) {
+            throw new ApiException(PRODUCT_ALREADY_EXISTS);
+        }
 
         Product entity = ProductMapper.mapToEntity(dto);
         return productRepository.save(entity);

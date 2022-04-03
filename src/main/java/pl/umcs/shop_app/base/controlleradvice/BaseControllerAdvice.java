@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.umcs.shop_app.domain.exception.ApiException;
 import pl.umcs.shop_app.domain.exception.ErrorStatus;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toCollection;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
@@ -31,10 +35,10 @@ public class BaseControllerAdvice {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<Map<String, List<String>>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
 
-        Map<String, String> errors = exception.getBindingResult().getFieldErrors().stream()
-                .collect(toMap(FieldError::getField, DefaultMessageSourceResolvable::getDefaultMessage));
+        Map<String, List<String>> errors = exception.getBindingResult().getFieldErrors().stream()
+                .collect(groupingBy(FieldError::getField, Collectors.mapping(DefaultMessageSourceResolvable::getDefaultMessage, toCollection(ArrayList::new))));
 
         return ResponseEntity.badRequest().body(errors);
     }

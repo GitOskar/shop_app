@@ -10,6 +10,7 @@ import pl.umcs.shop_app.domain.order.enumerate.OrderStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<UserOrder, Long> {
@@ -22,5 +23,5 @@ public interface OrderRepository extends JpaRepository<UserOrder, Long> {
     @Query("update UserOrder set orderStatus = :status where orderId = :orderId")
     void updateStatus(String orderId, OrderStatus status);
 
-    UserOrder findByIdAndOrderedBy(Long id, String orderedBy);
+    Optional<UserOrder> findByIdAndOrderedBy(Long id, String orderedBy);
 }
